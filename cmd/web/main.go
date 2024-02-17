@@ -27,19 +27,9 @@ func main() {
 		logger: logger,
 	}
 
-	mux := http.NewServeMux()
+	logger.Info("starting server", "addr", *addr)
 
-	fileServer := http.FileServer(http.Dir("./ui/static/"))
-	// strip prefixしないと/staticにアクセスした時に/static/static/*を探してしまう
-	mux.Handle("/static/", http.StripPrefix("/static", fileServer))
-
-	mux.HandleFunc("/", app.home)
-	mux.HandleFunc("/snippet/view", app.snippetView)
-	mux.HandleFunc("/snippet/create", app.snippetCreate)
-
-	logger.Info("starting server", slog.String("addr", ":4000"))
-
-	err := http.ListenAndServe(*addr, mux)
+	err := http.ListenAndServe(*addr, app.routes())
 	logger.Error(err.Error())
 	os.Exit(1)
 }
