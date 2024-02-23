@@ -28,8 +28,8 @@ func main() {
 
 	// loggerのセットアップ
 	logger := slog.New(slog.NewJSONHandler(os.Stdout, &slog.HandlerOptions{
-		Level:     slog.LevelDebug,
-		AddSource: true,
+		Level: slog.LevelDebug,
+		// AddSource: true,
 	}))
 
 	// dbのセットアップ
