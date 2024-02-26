@@ -19,6 +19,7 @@ func (app *application) routes() http.Handler {
 	fileServer := http.FileServer(http.FS(ui.Files))
 	// strip prefixしないと/staticにアクセスした時に/static/static/*を探してしまう
 	router.Handler(http.MethodGet, "/static/*filepath", fileServer)
+	router.HandlerFunc(http.MethodGet, "/healthcheck", healthCheck)
 
 	dynamic := alice.New(app.sessionManager.LoadAndSave, noSurf, app.authenticate)
 
